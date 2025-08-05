@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThyroidCare - Sign Up</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: linear-gradient(135deg, #E0F2FE, #BFDBFE);
+            font-family: 'Arial', sans-serif;
+        }
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #BFDBFE, #60A5FA, #3B82F6, #E0F2FE);
+            background-size: 400%;
+            animation: pulse 10s ease infinite;
+            z-index: -1;
+            opacity: 0.4;
+        }
+        @keyframes pulse {
+            0% { background-position: 0% 50%; transform: scale(1); }
+            50% { background-position: 100% 50%; transform: scale(1.02); }
+            100% { background-position: 0% 50%; transform: scale(1); }
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 1rem;
+            text-align: center;
+            color: #1E3A8A;
+        }
+        .step {
+            display: none;
+            width: 100%;
+            max-width: 400px;
+        }
+        .step.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .logo-img {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 1.5rem;
+            animation: heartbeat 2s ease-in-out infinite;
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .input-field {
+            width: 80%;
+            max-width: 280px;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border-radius: 0.5rem;
+            border: 1px solid #93C5FD;
+            font-size: 1rem;
+            background: #fff;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: #3B82F6;
+            box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+        }
+        .gender-container {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 80%;
+            max-width: 280px;
+            margin: 0.5rem 0;
+        }
+        .gender-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border: 1px solid #3B82F6;
+            background: #fff;
+            color: #1E3A8A;
+            transition: background-color 0.3s, color 0.3s, transform 0.2s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        .gender-btn.selected {
+            background-color: #3B82F6;
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        .gender-btn:hover {
+            background-color: #DBEAFE;
+            transform: translateY(-2px);
+        }
+        .ladder-container {
+            width: 80%;
+            max-width: 280px;
+            height: 150px;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            border: 1px solid #93C5FD;
+            border-radius: 0.5rem;
+            background: #fff;
+            margin: 0.5rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .ladder-container::-webkit-scrollbar {
+            display: none;
+        }
+        .ladder-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50px;
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: #1E3A8A;
+            scroll-snap-align: center;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .ladder-item.selected {
+            background-color: #DBEAFE;
+            font-weight: 600;
+            transform: scale(1.05);
+        }
+        .btn {
+            width: 80%;
+            max-width: 280px;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border-radius: 1rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            transition: transform 0.2s, background-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        .text {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        .link {
+            color: #3B82F6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .link:hover {
+            text-decoration: underline;
+        }
+        @media (min-width: 768px) {
+            .container {
+                display: none;
+            }
+            body::after {
+                content: 'Please access ThyroidCare on a mobile device.';
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                color: #1E3A8A;
+                font-size: 1.5rem;
+                text-align: center;
+                background: #E0F2FE;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg"></div>
+    <div class="container">
+        <img src="https://via.placeholder.com/100?text=ThyroidCare+Logo" alt="ThyroidCare Logo" class="logo-img">
+        
+        <!-- Step 1: Name and Gender -->
+        <div class="step active" id="step1">
+            <p class="text">Enter your details</p>
+            <input type="text" class="input-field" id="fullName" placeholder="Full Name" required>
+            <div class="gender-container">
+                <button class="gender-btn" onclick="selectGender('Male')">Male</button>
+                <button class="gender-btn" onclick="selectGender('Female')">Female</button>
+            </div>
+            <button class="btn bg-blue-600 text-white hover:bg-blue-700" onclick="goToStep(2)">Next</button>
+        </div>
+
+        <!-- Step 2: Age Selection -->
+        <div class="step" id="step2">
+            <p class="text">Select your age</p>
+            <div class="ladder-container" id="ageLadder">
+            <div class="ladder-item" data-value="Age">Age</div>
+            <div class="ladder-item" data-value="15">15</div>
+            <div class="ladder-item" data-value="16">16</div>
+            <div class="ladder-item" data-value="17">17</div>
+            <div class="ladder-item" data-value="18">18</div>
+            <div class="ladder-item" data-value="19">19</div>
+            <div class="ladder-item" data-value="20">20</div>
+            <div class="ladder-item" data-value="21">21</div>
+            <div class="ladder-item" data-value="22">22</div>
+            <div class="ladder-item" data-value="23">23</div>
+            <div class="ladder-item" data-value="24">24</div>
+            <div class="ladder-item" data-value="25">25</div>
+            <div class="ladder-item" data-value="26">26</div>
+            <div class="ladder-item" data-value="27">27</div>
+            <div class="ladder-item" data-value="28">28</div>
+            <div class="ladder-item" data-value="29">29</div>
+            <div class="ladder-item" data-value="30">30</div>
+            <div class="ladder-item" data-value="31">31</div>
+            <div class="ladder-item" data-value="32">32</div>
+            <div class="ladder-item" data-value="33">33</div>
+            <div class="ladder-item" data-value="34">34</div>
+            <div class="ladder-item" data-value="35">35</div>
+            <div class="ladder-item" data-value="36">36</div>
+            <div class="ladder-item" data-value="37">37</div>
+            <div class="ladder-item" data-value="38">38</div>
+            <div class="ladder-item" data-value="39">39</div>
+            <div class="ladder-item" data-value="40">40</div>
+            <div class="ladder-item" data-value="41">41</div>
+            <div class="ladder-item" data-value="42">42</div>
+            <div class="ladder-item" data-value="43">43</div>
+            <div class="ladder-item" data-value="44">44</div>
+            <div class="ladder-item" data-value="45">45</div>
+            <div class="ladder-item" data-value="46">46</div>
+            <div class="ladder-item" data-value="47">47</div>
+            <div class="ladder-item" data-value="48">48</div>
+            <div class="ladder-item" data-value="49">49</div>
+            <div class="ladder-item" data-value="50">50</div>
+            <div class="ladder-item" data-value="51">51</div>
+            <div class="ladder-item" data-value="52">52</div>
+            <div class="ladder-item" data-value="53">53</div>
+            <div class="ladder-item" data-value="54">54</div>
+            <div class="ladder-item" data-value="55">55</div>
+            <div class="ladder-item" data-value="56">56</div>
+            <div class="ladder-item" data-value="57">57</div>
+            <div class="ladder-item" data-value="58">58</div>
+            <div class="ladder-item" data-value="59">59</div>
+            <div class="ladder-item" data-value="60">60</div>
+            <div class="ladder-item" data-value="61">61</div>
+            <div class="ladder-item" data-value="62">62</div>
+            <div class="ladder-item" data-value="63">63</div>
+            <div class="ladder-item" data-value="64">64</div>
+            <div class="ladder-item" data-value="65">65</div>
+            <div class="ladder-item" data-value="66">66</div>
+            <div class="ladder-item" data-value="67">67</div>
+            <div class="ladder-item" data-value="68">68</div>
+            <div class="ladder-item" data-value="69">69</div>
+            <div class="ladder-item" data-value="70">70</div>
+            <div class="ladder-item" data-value="71">71</div>
+            <div class="ladder-item" data-value="72">72</div>
+            <div class="ladder-item" data-value="73">73</div>
+            <div class="ladder-item" data-value="74">74</div>
+            <div class="ladder-item" data-value="75">75</div>
+            <div class="ladder-item" data-value="76">76</div>
+            <div class="ladder-item" data-value="77">77</div>
+            <div class="ladder-item" data-value="78">78</div>
+            <div class="ladder-item" data-value="79">79</div>
+            <div class="ladder-item" data-value="80">80</div>
+            <div class="ladder-item" data-value="81">81</div>
+            <div class="ladder-item" data-value="82">82</div>
+            <div class="ladder-item" data-value="83">83</div>
+            <div class="ladder-item" data-value="84">84</div>
+            <div class="ladder-item" data-value="85">85</div>
+            <div class="ladder-item" data-value="86">86</div>
+            <div class="ladder-item" data-value="87">87</div>
+            <div class="ladder-item" data-value="88">88</div>
+            <div class="ladder-item" data-value="89">89</div>
+            <div class="ladder-item" data-value="90">90</div>
+            <div class="ladder-item" data-value="91">91</div>
+            <div class="ladder-item" data-value="92">92</div>
+            <div class="ladder-item" data-value="93">93</div>
+            <div class="ladder-item" data-value="94">94</div>
+            <div class="ladder-item" data-value="95">95</div>
+            <div class="ladder-item" data-value="96">96</div>
+            <div class="ladder-item" data-value="97">97</div>
+            <div class="ladder-item" data-value="98">98</div>
+            <div class="ladder-item" data-value="99">99</div>
+            <div class="ladder-item" data-value="100">100</div>
+            <div class="ladder-item" data-value="100">.......</div>
+            </div>
+            <button class="btn bg-blue-600 text-white hover:bg-blue-700" onclick="goToStep(3)">Next</button>
+        </div>
+
+        <!-- Step 3: Height Selection -->
+        <div class="step" id="step3">
+            <p class="text">Select your height (cm)</p>
+            <div class="ladder-container" id="heightLadder">
+<!-- Height Options: 50cm to 250cm -->
+<div class="height-ladder">
+  <!-- START OF LADDER ITEMS -->
+  <div class="ladder-item" data-value="Height">Height</div>
+  <div class="ladder-item" data-value="50">50 cm</div>
+  <div class="ladder-item" data-value="51">51 cm</div>
+  <div class="ladder-item" data-value="52">52 cm</div>
+  <div class="ladder-item" data-value="53">53 cm</div>
+  <div class="ladder-item" data-value="54">54 cm</div>
+  <div class="ladder-item" data-value="55">55 cm</div>
+  <div class="ladder-item" data-value="56">56 cm</div>
+  <div class="ladder-item" data-value="57">57 cm</div>
+  <div class="ladder-item" data-value="58">58 cm</div>
+  <div class="ladder-item" data-value="59">59 cm</div>
+  <!-- ... -->
+  <!-- Continue pattern -->
+  <!-- ... -->
+  <div class="ladder-item" data-value=".....">......</div>
+  <div class="ladder-item" data-value="250">250 cm</div>
+  <!-- END OF LADDER ITEMS -->
+</div>
+
+                <!-- Add more heights as needed -->
+            </div>
+            <button class="btn bg-green-600 text-white hover:bg-green-700" onclick="submitForm()">Sign Up</button>
+            <p class="mt-4">Have an account? <a href="signin.html" class="link">Sign In</a></p>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let selectedGender = '';
+        let selectedAge = '';
+        let selectedHeight = '';
+
+        function selectGender(gender) {
+            selectedGender = gender;
+            document.querySelectorAll('.gender-btn').forEach(btn => {
+                btn.classList.remove('selected');
+                if (btn.textContent === gender) {
+                    btn.classList.add('selected');
+                }
+            });
+        }
+
+        function goToStep(step) {
+            if (step === 2 && !document.getElementById('fullName').value) {
+                alert('Please enter your full name.');
+                return;
+            }
+            if (step === 2 && !selectedGender) {
+                alert('Please select a gender.');
+                return;
+            }
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById(`step${step}`).classList.add('active');
+            currentStep = step;
+
+            if (step === 2) {
+                setTimeout(() => {
+                    const ageLadder = document.getElementById('ageLadder');
+                    ageLadder.scrollTop = ageLadder.scrollHeight / 2;
+                    updateSelectedItem('ageLadder', 'age');
+                }, 0);
+            } else if (step === 3) {
+                setTimeout(() => {
+                    const heightLadder = document.getElementById('heightLadder');
+                    heightLadder.scrollTop = heightLadder.scrollHeight / 2;
+                    updateSelectedItem('heightLadder', 'height');
+                }, 0);
+            }
+        }
+
+        function updateSelectedItem(ladderId, type) {
+            const ladder = document.getElementById(ladderId);
+            const items = ladder.querySelectorAll('.ladder-item');
+            const update = () => {
+                const ladderRect = ladder.getBoundingClientRect();
+                const centerY = ladderRect.top + ladderRect.height / 2;
+                let closestItem = null;
+                let minDistance = Infinity;
+
+                items.forEach(item => {
+                    const rect = item.getBoundingClientRect();
+                    const itemCenterY = rect.top + rect.height / 2;
+                    const distance = Math.abs(centerY - itemCenterY);
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        closestItem = item;
+                    }
+                });
+
+                items.forEach(item => item.classList.remove('selected'));
+                if (closestItem) {
+                    closestItem.classList.add('selected');
+                    if (type === 'age') {
+                        selectedAge = closestItem.getAttribute('data-value');
+                    } else if (type === 'height') {
+                        selectedHeight = closestItem.getAttribute('data-value');
+                    }
+                }
+            };
+
+            ladder.addEventListener('scroll', update);
+            update();
+        }
+
+        function submitForm() {
+            if (!selectedAge) {
+                alert('Please select an age.');
+                return;
+            }
+            if (!selectedHeight) {
+                alert('Please select a height.');
+                return;
+            }
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                gender: selectedGender,
+                age: selectedAge,
+                height: selectedHeight
+            };
+            console.log('Form Data:', formData);
+            alert('Sign Up Successful! Data logged to console.');
+            // Add backend integration here to handle form submission
+        }
+        const ladder = document.querySelector('.height-ladder');
+for (let i = 50; i <= 250; i++) {
+  const div = document.createElement('div');
+  div.className = 'ladder-item';
+  div.dataset.value = i;
+  div.textContent = `${i} cm`;
+  ladder.appendChild(div);
+}
+
+    </script>
+    
+</body>
+</html>

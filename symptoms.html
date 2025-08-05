@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThyroidCare - Current Symptoms</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #E0F2FE, #DDD6FE);
+            font-family: 'Arial', sans-serif;
+        }
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #BFDBFE, #A5B4FC, #3B82F6, #E0F2FE);
+            background-size: 400%;
+            animation: pulse 10s ease infinite;
+            z-index: -1;
+            opacity: 0.4;
+        }
+        @keyframes pulse {
+            0% { background-position: 0% 50%; transform: scale(1); }
+            50% { background-position: 100% 50%; transform: scale(1.02); }
+            100% { background-position: 0% 50%; transform: scale(1); }
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1.5rem;
+            text-align: center;
+            color: #1E3A8A;
+        }
+        .heading {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        .subtext {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #1E3A8A;
+            margin-bottom: 1.5rem;
+            max-width: 320px;
+            line-height: 1.5;
+        }
+        .checkbox-container {
+            width: 80%;
+            max-width: 320px;
+            background: #fff;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            max-height: 300px;
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .checkbox-container::-webkit-scrollbar {
+            display: none;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+        }
+        .checkbox-item:last-child {
+            margin-bottom: 0;
+        }
+        .checkbox-item input {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #93C5FD;
+            border-radius: 0.25rem;
+            margin-right: 0.75rem;
+            transition: background-color 0.2s, border-color 0.2s, transform 0.2s;
+        }
+        .checkbox-item input:checked {
+            background-color: #3B82F6;
+            border-color: #3B82F6;
+            transform: scale(1.1);
+        }
+        .checkbox-item input:checked::after {
+            content: '✔';
+            color: #fff;
+            font-size: 14px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        .checkbox-item label {
+            font-size: 1rem;
+            color: #1E3A8A;
+            font-weight: 400;
+        }
+        .btn {
+            width: 50%;
+            max-width: 140px;
+            padding: 0.75rem;
+            border-radius: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            background-color: #3B82F6;
+            color: #fff;
+            transition: transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .btn:active {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        .btn-container {
+            width: 80%;
+            max-width: 320px;
+            display: flex;
+            justify-content: flex-start;
+        }
+        .symptom-icon {
+            width: 24px;
+            height: 24px;
+            fill: #3B82F6;
+            margin-bottom: 1rem;
+        }
+        @media (min-width: 768px) {
+            .container {
+                display: none;
+            }
+            body::after {
+                content: 'Please access ThyroidCare on a mobile device.';
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                color: #1E3A8A;
+                font-size: 1.5rem;
+                text-align: center;
+                background: #E0F2FE;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg"></div>
+    <div class="container">
+        <svg class="symptom-icon" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
+        </svg>
+        <h1 class="heading">What symptoms are you currently experiencing?</h1>
+        <p class="subtext">
+            Your body speaks — we help you listen. Select all that apply to guide your wellness plan with relevant recipes, activities, and tips. You can update this anytime as your health evolves.
+        </p>
+        <div class="checkbox-container">
+            <div class="checkbox-item">
+                <input type="checkbox" id="fatigue" name="symptoms" value="Fatigue or low energy">
+                <label for="fatigue">Fatigue or low energy</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="weight" name="symptoms" value="Weight gain or loss">
+                <label for="weight">Weight gain or loss</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="hair" name="symptoms" value="Hair thinning or hair fall">
+                <label for="hair">Hair thinning or hair fall</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="periods" name="symptoms" value="Irregular periods or fertility issues">
+                <label for="periods">Irregular periods or fertility issues</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="anxiety" name="symptoms" value="Anxiety or depression">
+                <label for="anxiety">Anxiety or depression</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="temperature" name="symptoms" value="Cold or heat sensitivity">
+                <label for="temperature">Cold or heat sensitivity</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="swelling" name="symptoms" value="Swelling in the neck">
+                <label for="swelling">Swelling in the neck</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="sleep" name="symptoms" value="Difficulty sleeping">
+                <label for="sleep">Difficulty sleeping</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="memory" name="symptoms" value="Memory or focus issues">
+                <label for="memory">Memory or focus issues</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="checkbox" id="none" name="symptoms" value="No current symptoms" onclick="toggleNoneCheckbox()">
+                <label for="none">No current symptoms</label>
+            </div>
+        </div>
+        <div class="btn-container">
+            <button class="btn" onclick="submitSymptoms()">Next</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleNoneCheckbox() {
+            const noneCheckbox = document.getElementById('none');
+            const otherCheckboxes = document.querySelectorAll('input[name="symptoms"]:not(#none)');
+            if (noneCheckbox.checked) {
+                otherCheckboxes.forEach(cb => cb.checked = false);
+            }
+        }
+
+        function submitSymptoms() {
+            const noneCheckbox = document.getElementById('none');
+            const checkboxes = document.querySelectorAll('input[name="symptoms"]:checked');
+            if (checkboxes.length === 0) {
+                alert('Please select at least one symptom or "No current symptoms".');
+                return;
+            }
+            if (!noneCheckbox.checked) {
+                noneCheckbox.checked = false; // Ensure "No current symptoms" is unchecked if others are selected
+            }
+            const selectedSymptoms = Array.from(checkboxes).map(cb => cb.value);
+            console.log('Selected Symptoms:', selectedSymptoms);
+            alert(`Symptoms saved: ${selectedSymptoms.join(', ')}`);
+            // Add navigation or backend logic here (e.g., redirect to next page or save to database)
+        }
+    </script>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThyroidCare - Select Condition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #E0F2FE, #DDD6FE);
+            font-family: 'Arial', sans-serif;
+        }
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #BFDBFE, #A5B4FC, #3B82F6, #E0F2FE);
+            background-size: 400%;
+            animation: pulse 10s ease infinite;
+            z-index: -1;
+            opacity: 0.4;
+        }
+        @keyframes pulse {
+            0% { background-position: 0% 50%; transform: scale(1); }
+            50% { background-position: 100% 50%; transform: scale(1.02); }
+            100% { background-position: 0% 50%; transform: scale(1); }
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1.5rem;
+            text-align: center;
+            color: #1E3A8A;
+        }
+        .heading {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            width: 100%;
+            max-width: 400px;
+        }
+        .card {
+            background: #FFFFFF;
+            border-radius: 1rem;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.3s, background-color 0.3s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .card.selected {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            background-color: #E0F2FE;
+        }
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 0.5rem;
+            fill: #3B82F6;
+        }
+        .card-title {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #1E3A8A;
+        }
+        @media (min-width: 768px) {
+            .container {
+                display: none;
+            }
+            body::after {
+                content: 'Please access ThyroidCare on a mobile device.';
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                color: #1E3A8A;
+                font-size: 1.5rem;
+                text-align: center;
+                background: #E0F2FE;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg"></div>
+    <div class="container">
+        <h1 class="heading">Select Your Diagnosed Condition</h1>
+        <div class="card-grid">
+            <div class="card" onclick="selectCondition(this, 'Hypothyroidism')">
+                <svg class="card-icon" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
+                </svg>
+                <span class="card-title">Hypothyroidism</span>
+            </div>
+            <div class="card" onclick="selectCondition(this, 'Hyperthyroidism')">
+                <svg class="card-icon" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm1-13h-2v4H7v2h4v4h2v-4h4v-2h-4V7z"/>
+                </svg>
+                <span class="card-title">Hyperthyroidism</span>
+            </div>
+            <div class="card" onclick="selectCondition(this, 'Thyroiditis')">
+                <svg class="card-icon" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 8H9v2H7v-2H5v-2h2V8h2v2h2v2z"/>
+                </svg>
+                <span class="card-title">Thyroiditis</span>
+            </div>
+            <div class="card" onclick="selectCondition(this, 'Goiter')">
+                <svg class="card-icon" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-12c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                </svg>
+                <span class="card-title">Goiter</span>
+            </div>
+            <div class="card" onclick="selectCondition(this, 'Thyroid Nodules')">
+                <svg class="card-icon" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2-8c0-1.1.9-2 2-2s2 .9 2 2-1.79 4-4 4-4-1.79-4-4 1.79-4 4-4z"/>
+                </svg>
+                <span class="card-title">Thyroid Nodules</span>
+            </div>
+            <div class="card" onclick="selectCondition(this, 'Thyroid Cancer')">
+                <svg class="card-icon" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 8.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 9.5 12 9.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+                <span class="card-title">Thyroid Cancer</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedCard = null;
+
+        function selectCondition(card, condition) {
+            if (selectedCard) {
+                selectedCard.classList.remove('selected');
+            }
+            card.classList.add('selected');
+            selectedCard = card;
+            console.log('Selected Condition:', condition);
+            alert(`You selected: ${condition}`);
+            // Add navigation or backend logic here
+        }
+    </script>
+</body>
+</html>

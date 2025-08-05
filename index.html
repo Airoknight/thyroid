@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThyroidCare - Welcome</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: linear-gradient(135deg, #E0F2FE, #BFDBFE);
+            font-family: 'Arial', sans-serif;
+        }
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #BFDBFE, #60A5FA, #3B82F6, #E0F2FE);
+            background-size: 400%;
+            animation: pulse 10s ease infinite;
+            z-index: -1;
+            opacity: 0.4;
+        }
+        @keyframes pulse {
+            0% { background-position: 0% 50%; transform: scale(1); }
+            50% { background-position: 100% 50%; transform: scale(1.02); }
+            100% { background-position: 0% 50%; transform: scale(1); }
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 1rem;
+            text-align: center;
+            color: #1E3A8A;
+        }
+        .logo-img {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 1.5rem;
+            animation: heartbeat 2s ease-in-out infinite;
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .btn {
+            width: 80%;
+            max-width: 280px;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border-radius: 1rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            transition: transform 0.2s, background-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        .text {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        @media (min-width: 768px) {
+            .container {
+                display: none;
+            }
+            body::after {
+                content: 'Please access ThyroidCare on a mobile device.';
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                color: #1E3A8A;
+                font-size: 1.5rem;
+                text-align: center;
+                background: #E0F2FE;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg"></div>
+    <div class="container">
+        <img src="https://via.placeholder.com/120?text=ThyroidCare+Logo" alt="ThyroidCare Logo" class="logo-img">
+        <p class="text">Empowering thyroid health management</p>
+        <button class="btn bg-blue-600 text-white hover:bg-blue-700" onclick="window.location.href='signin.html'">Sign In</button>
+        <button class="btn bg-green-600 text-white hover:bg-green-700" onclick="window.location.href='signup.html'">Sign Up</button>
+    </div>
+
+    <xaiArtifact artifact_id="01225d78-0826-41b6-8c21-2576fc4e5c6f" artifact_version_id="0ade2283-b321-41df-bb69-ac5960d31be1" title="signin.html" contentType="text/html">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ThyroidCare - Sign In</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background: linear-gradient(135deg, #E0F2FE, #BFDBFE);
+                font-family: 'Arial', sans-serif;
+            }
+            .animated-bg {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(45deg, #BFDBFE, #60A5FA, #3B82F6, #E0F2FE);
+                background-size: 400%;
+                animation: pulse 10s ease infinite;
+                z-index: -1;
+                opacity: 0.4;
+            }
+            @keyframes pulse {
+                0% { background-position: 0% 50%; transform: scale(1); }
+                50% { background-position: 100% 50%; transform: scale(1.02); }
+                100% { background-position: 0% 50%; transform: scale(1); }
+            }
+            .container {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                padding: 1rem;
+                text-align: center;
+                color: #1E3A8A;
+            }
+            .logo-img {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 1.5rem;
+                animation: heartbeat 2s ease-in-out infinite;
+            }
+            @keyframes heartbeat {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.1); }
+            }
+            .input-field {
+                width: 80%;
+                max-width: 280px;
+                padding: 0.75rem;
+                margin: 0.5rem 0;
+                border-radius: 0.5rem;
+                border: 1px solid #93C5FD;
+                font-size: 1rem;
+                background: #fff;
+                transition: border-color 0.3s;
+            }
+            .input-field:focus {
+                outline: none;
+                border-color: #3B82F6;
+                box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+            }
+            .btn {
+                width: 80%;
+                max-width: 280px;
+                padding: 0.75rem;
+                margin: 0.5rem 0;
+                border-radius: 1rem;
+                font-size: 1.125rem;
+                font-weight: 600;
+                transition: transform 0.2s, background-color 0.3s, box-shadow 0.3s;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            .btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            }
+            .text {
+                font-size: 1.25rem;
+                font-weight: 500;
+                margin-bottom: 1.5rem;
+                text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            }
+            .link {
+                color: #3B82F6;
+                text-decoration: none;
+                font-weight: 500;
+            }
+            .link:hover {
+                text-decoration: underline;
+            }
+            @media (min-width: 768px) {
+                .container {
+                    display: none;
+                }
+                body::after {
+                    content: 'Please access ThyroidCare on a mobile device.';
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                    color: #1E3A8A;
+                    font-size: 1.5rem;
+                    text-align: center;
+                    background: #E0F2FE;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="animated-bg"></div>
+        <div class="container">
+            <img src="https://via.placeholder.com/100?text=ThyroidCare+Logo" alt="ThyroidCare Logo" class="logo-img">
+            <p class="text">Sign in to your account</p>
+            <input type="email" class="input-field" placeholder="Email" required>
+            <input type="password" class="input-field" placeholder="Password" required>
+            <button class="btn bg-blue-600 text-white hover:bg-blue-700">Sign In</button>
+            <p class="mt-4">New here? <a href="signup.html" class="link">Sign Up</a></p>
+        </div>
+    </body>
+    </html>
