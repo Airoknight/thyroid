@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ThyroidCare - AI Assistant</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f8f9fa;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      overflow-x: hidden;
+    }
+    .mobile-container {
+      width: 100%;
+      max-width: 100vw;
+      margin: 0;
+      background: white;
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    @media (min-width: 768px) {
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #E0F2FE, #BFDBFE);
+      }
+      .mobile-container {
+        max-width: 375px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        border-radius: 20px;
+        overflow: hidden;
+      }
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 40px 20px 20px;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+    }
+    .back-button {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .back-button:hover { background: rgba(255, 255, 255, 0.3); }
+    .back-button::before {
+      content: '←';
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .header h1 { font-size: 20px; font-weight: 600; margin: 0; }
+    .ai-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ai-icon::before { content: '🤖'; font-size: 16px; }
+    .chat-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      overflow-y: auto;
+      max-height: calc(100vh - 200px);
+    }
+    .chat-messages {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .message { display: flex; gap: 12px; max-width: 85%; }
+    .message.user {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+    .message.bot { align-self: flex-start; }
+    .message-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .message.user .message-avatar { background: #3b82f6; color: white; }
+    .message.bot .message-avatar { background: #e5e7eb; color: #374151; }
+    .message.user .message-avatar::before { content: '👤'; font-size: 16px; }
+    .message.bot .message-avatar::before { content: '🤖'; font-size: 16px; }
+    .message-content {
+      background: #f3f4f6;
+      padding: 12px 16px;
+      border-radius: 18px;
+      font-size: 14px;
+      line-height: 1.4;
+      color: #374151;
+    }
+    .message.user .message-content { background: #3b82f6; color: white; }
+    .typing-indicator {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      max-width: 85%;
+      align-self: flex-start;
+    }
+    .typing-indicator .message-content {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 12px 16px;
+    }
+    .typing-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #9ca3af;
+      animation: typing 1.4s infinite ease-in-out;
+    }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typing {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+      30% { transform: translateY(-10px); opacity: 1; }
+    }
+    .input-container {
+      padding: 20px;
+      background: white;
+      border-top: 1px solid #e5e7eb;
+    }
+    .input-wrapper {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+    }
+    .message-input {
+      flex: 1;
+      min-height: 44px;
+      max-height: 120px;
+      padding: 12px 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 22px;
+      font-size: 14px;
+      resize: none;
+      outline: none;
+      font-family: inherit;
+      line-height: 1.4;
+    }
+    .message-input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    .send-button {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #3b82f6;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .send-button:hover:not(:disabled) { background: #1d4ed8; }
+    .send-button:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+    .send-button::before { content: '→'; color: white; font-size: 18px; font-weight: bold; }
+    .welcome-message {
+      text-align: center;
+      padding: 40px 20px;
+      color: #6b7280;
+    }
+    .welcome-message h2 { font-size: 18px; font-weight: 600; color: #374151; margin: 0 0 8px 0; }
+    .welcome-message p { font-size: 14px; margin: 0; line-height: 1.5; }
+    .suggested-questions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .suggestion-chip {
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      border-radius: 20px;
+      padding: 10px 16px;
+      font-size: 13px;
+      color: #374151;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .suggestion-chip:hover { background: #e5e7eb; border-color: #d1d5db; }
+  </style>
+</head>
+<body>
+  <div class="mobile-container">
+    <div class="header">
+      <div class="back-button" onclick="goBack()"></div>
+      <h1>AI Assistant</h1>
+      <div class="ai-icon"></div>
+    </div>
+    <div class="chat-container">
+      <div class="chat-messages" id="chatMessages">
+        <div class="welcome-message">
+          <h2>Hello! I'm your ThyroidCare AI Assistant</h2>
+          <p>I can help you with thyroid health questions, diet recommendations, and general wellness advice.</p>
+          <div class="suggested-questions">
+            <div class="suggestion-chip" onclick="sendSuggestion('What foods are good for thyroid health?')">What foods are good for thyroid health?</div>
+            <div class="suggestion-chip" onclick="sendSuggestion('How can I manage hypothyroidism naturally?')">How can I manage hypothyroidism naturally?</div>
+            <div class="suggestion-chip" onclick="sendSuggestion('What are the symptoms of thyroid problems?')">What are the symptoms of thyroid problems?</div>
+            <div class="suggestion-chip" onclick="sendSuggestion('Can you explain my thyroid test results?')">Can you explain my thyroid test results?</div>
+          </div>
+        </div>
+      </div>
+      <div class="typing-indicator" id="typingIndicator">
+        <div class="message-avatar"></div>
+        <div class="message-content">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+      </div>
+    </div>
+    <div class="input-container">
+      <div class="input-wrapper">
+        <textarea id="messageInput" class="message-input" placeholder="Ask me about thyroid health..." rows="1" onkeydown="handleKeyDown(event)" oninput="adjustTextareaHeight(this)"></textarea>
+        <button id="sendButton" class="send-button" onclick="sendMessage()"></button>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Ollama API Configuration (via proxy to avoid CORS)
+    const API_URL = 'http://localhost:3001/api/generate';
+    const MODEL_NAME = 'zephyr';
+
+    let chatHistory = [];
+    const chatMessages = document.getElementById("chatMessages");
+    const messageInput = document.getElementById("messageInput");
+    const sendButton = document.getElementById("sendButton");
+    const typingIndicator = document.getElementById("typingIndicator");
+
+    document.addEventListener("DOMContentLoaded", function () {
+      messageInput.focus();
+    });
+
+    function goBack() {
+      window.history.back();
+    }
+
+    function adjustTextareaHeight(textarea) {
+      textarea.style.height = "auto";
+      textarea.style.height = Math.min(textarea.scrollHeight, 120) + "px";
+    }
+
+    function handleKeyDown(event) {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
+      }
+    }
+
+    function sendSuggestion(text) {
+      messageInput.value = text;
+      sendMessage();
+    }
+
+    async function sendMessage() {
+      const message = messageInput.value.trim();
+      if (!message) return;
+      messageInput.value = "";
+      messageInput.style.height = "auto";
+      sendButton.disabled = true;
+      addMessage(message, "user");
+      showTypingIndicator();
+      try {
+        const response = await callOllamaAPI(message);
+        hideTypingIndicator();
+        addMessage(response, "bot");
+      } catch (error) {
+        hideTypingIndicator();
+        console.error("Error:", error);
+        
+        let errorMessage = 'I apologize, but I\'m having trouble connecting to the local AI service.';
+        
+        if (error.message.includes('CORS')) {
+          errorMessage += ' This appears to be a CORS issue. Please start Ollama with: ollama serve --cors-allow-origin="*"';
+        } else if (error.message.includes('Cannot connect')) {
+          errorMessage += ' Please make sure Ollama is running on localhost:11434 with the Zephyr model loaded.';
+        } else {
+          errorMessage += ` Error: ${error.message}`;
+        }
+        
+        addMessage(errorMessage, "bot");
+      }
+      sendButton.disabled = false;
+      messageInput.focus();
+    }
+
+    async function callOllamaAPI(message) {
+      console.log('Calling Ollama API with message:', message);
+      
+      const systemPrompt = `You are a helpful AI assistant specialized in thyroid health and wellness. You provide accurate, helpful information about thyroid conditions, diet, lifestyle, and general health advice. Always remind users to consult healthcare professionals for medical decisions. Keep responses concise and friendly.
+
+User question: ${message}`;
+      
+      const requestBody = {
+        model: MODEL_NAME,
+        prompt: systemPrompt,
+        stream: false,
+        options: {
+          temperature: 0.7,
+          top_p: 0.9,
+          max_tokens: 1024
+        }
+      };
+
+      console.log('Request body:', requestBody);
+      console.log('API URL:', API_URL);
+
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestBody)
+        });
+
+        console.log('Response status:', response.status);
+        console.log('Response headers:', response.headers);
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error('Error response:', errorText);
+          throw new Error(`Ollama API request failed: ${response.status} - ${errorText}`);
+        }
+
+        const data = await response.json();
+        console.log('Response data:', data);
+        
+        if (data.response) {
+          return data.response.trim();
+        } else {
+          console.error('Invalid response format:', data);
+          throw new Error('Invalid response format from Ollama API');
+        }
+      } catch (error) {
+        console.error('Fetch error:', error);
+        if (error.name === 'TypeError' && error.message.includes('fetch')) {
+          throw new Error('Cannot connect to Ollama server. Please check if Ollama is running on localhost:11434 and CORS is enabled.');
+        }
+        throw error;
+      }
+    }
+
+    function addMessage(text, sender) {
+      const messageDiv = document.createElement("div");
+      messageDiv.className = `message ${sender}`;
+      messageDiv.innerHTML = `<div class="message-avatar"></div><div class="message-content">${escapeHtml(text)}</div>`;
+      const welcomeMessage = document.querySelector(".welcome-message");
+      if (welcomeMessage) welcomeMessage.remove();
+      chatMessages.appendChild(messageDiv);
+      scrollToBottom();
+      chatHistory.push({ text, sender, timestamp: new Date() });
+    }
+
+    function showTypingIndicator() {
+      typingIndicator.style.display = "flex";
+      scrollToBottom();
+    }
+    function hideTypingIndicator() { typingIndicator.style.display = "none"; }
+    function scrollToBottom() { setTimeout(() => { chatMessages.scrollTop = chatMessages.scrollHeight; }, 100); }
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML.replace(/\n/g, "<br>");
+    }
+    messageInput.addEventListener("input", function () { adjustTextareaHeight(this); });
+  </script>
+</body>
+</html>
